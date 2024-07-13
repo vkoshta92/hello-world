@@ -9,37 +9,63 @@ const Person= require('./models/Person')
 app.get('/',function(req,res){
 res.send("welcome to my hotel how may i help you")
 })
-
-app.post('/person',(req,res)=>{
-const data= req.body;
-
 // create a new person doc usingg mongoose model
+// app.post('/person',(req,res)=>{
+// const data= req.body;
+// // sortcut
+// const newPerson= new Person(data);
+
+// // ye lenty  trika h
+// // newPerson.name= data.name;
+// // newPerson.age= data.body;
+// // newPerson.mobile= data.mobile;
+// // newPerson.email= data.email;
+// // newPerson.address= data.address;
+
+// // har bar ye call back use nhi krenge
+// // newPerson.save((error,savedPerson)=>{
+// //     if(error){
+// //         console.log('Error saving person ',error);
+// //         res.status(500).json({error:'Internal server error'})
+// //     }
+// //     else{
+// //         console.log('data saved succesfully');
+// //         res.status(200).json(savedPerson);
+// //     }
+// // })
 
 
 
 
-// newPerson.name=data.name;
-// newPerson.age=data.age;
-// newPerson.mobile=data.mobile;
-// newPerson.email=data.email;
 
-// newPerson.save((error,person)=>{
-// if(error){
-//     console.log('error saving person:',error);
-//     res.status(500).json({error:'Internal server error'})
-// }
-// else{
-//     console.log('data saved successfully');
-//     res.status(200).json(person)
-// }
-// }
-// )
+
+
+
+// })
 
 
 
 
 
-})
+app.post('/person',async (req,res)=>{
+  
+    try{
+const data= req.body;
+const newPerson= new Person(data);
+
+const response= await newPerson.save();
+console.log('data sved');
+res.status(200).json(response);
+    }
+    catch(err){
+console.log(err);
+res.status(500).json({error:'Interal Server Error'})
+    }
+    
+    
+    
+
+    })
 
 app.listen(3000,()=>{
     console.log('listing on port 3000');
