@@ -5,6 +5,7 @@ const db = require("./db");
 const bodyParser = require("body-parser"); // data ko confre krta h jo jaruri ho format convert keke bhejta h
 app.use(bodyParser.json());
 const Person = require("./models/Person");
+const MenuItem= require('./models/MenuItem')
 
 app.get("/", function (req, res) {
   res.send("welcome to my hotel how may i help you");
@@ -35,7 +36,7 @@ app.get("/", function (req, res) {
 // // })
 
 // })
-
+//post// save
 app.post("/person", async (req, res) => {
   try {
     const data = req.body;
@@ -50,7 +51,7 @@ app.post("/person", async (req, res) => {
   }
 });
 
-//get metod
+//get metodnd find
 app.get("/person", async (req, res) => {
   try {
     const data = await Person.find();
@@ -61,6 +62,22 @@ app.get("/person", async (req, res) => {
     res.status(500).json({ error: "Internal server eerror" });
   }
 });
+
+// menu
+app.post("/menu", async (req, res) => {
+    try {
+      const data = req.body;
+      const Menu = new MenuItem(data);
+  
+      const response = await Menu.save();
+      console.log("data sved");
+      res.status(200).json(response);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: "Interal Server Error" });
+    }
+  });
+
 
 app.listen(3000, () => {
   console.log("listing on port 3000");
