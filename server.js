@@ -4,8 +4,8 @@ const db = require("./db");
 
 const bodyParser = require("body-parser"); // data ko confre krta h jo jaruri ho format convert keke bhejta h
 app.use(bodyParser.json());
-const Person = require("./models/Person");
-const MenuItem= require('./models/MenuItem')
+// const Person = require("./models/Person");
+// const MenuItem= require('./models/MenuItem')
 
 app.get("/", function (req, res) {
   res.send("welcome to my hotel how may i help you");
@@ -37,47 +37,29 @@ app.get("/", function (req, res) {
 
 // })
 //post// save
-app.post("/person", async (req, res) => {
-  try {
-    const data = req.body;
-    const newPerson = new Person(data);
 
-    const response = await newPerson.save();
-    console.log("data sved");
-    res.status(200).json(response);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Interal Server Error" });
-  }
-});
 
-//get metodnd find
-app.get("/person", async (req, res) => {
-  try {
-    const data = await Person.find();
-    console.log("data find");
-    res.status(200).json(data);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Internal server eerror" });
-  }
-});
 
 // menu
-app.post("/menu", async (req, res) => {
-    try {
-      const data = req.body;
-      const Menu = new MenuItem(data);
+// app.post("/menu", async (req, res) => {
+//     try {
+//       const data = req.body;
+//       const Menu = new MenuItem(data);
   
-      const response = await Menu.save();
-      console.log("data sved");
-      res.status(200).json(response);
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ error: "Interal Server Error" });
-    }
-  });
+//       const response = await Menu.save();
+//       console.log("data sved");
+//       res.status(200).json(response);
+//     } catch (err) {
+//       console.log(err);
+//       res.status(500).json({ error: "Interal Server Error" });
+//     }
+//   });
 
+ const personRoutes= require('./routes/personRoutes');
+ app.use('/person',personRoutes);
+
+ const menuRoutes= require('./routes/menuRoutes');
+ app.use('/menu',menuRoutes);
 
 app.listen(3000, () => {
   console.log("listing on port 3000");
