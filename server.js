@@ -1,8 +1,10 @@
 const express = require("express");
 const app = express();
 const db = require("./db");
-
+require('dotenv').config();
 const bodyParser = require("body-parser"); // data ko confre krta h jo jaruri ho format convert keke bhejta h
+const PORT = process.env.PORT || 3000;
+
 app.use(bodyParser.json());
 // const Person = require("./models/Person");
 // const MenuItem= require('./models/MenuItem')
@@ -61,6 +63,6 @@ app.get("/", function (req, res) {
  const menuRoutes= require('./routes/menuRoutes');
  app.use('/menu',menuRoutes);
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log("listing on port 3000");
 });
