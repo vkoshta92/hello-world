@@ -4,12 +4,33 @@ const db = require("./db");
 require('dotenv').config();
 const bodyParser = require("body-parser"); // data ko confre krta h jo jaruri ho format convert keke bhejta h
 const PORT = process.env.PORT || 3000;
+const passport= require('./auth')
+
 
 app.use(bodyParser.json());
 // const Person = require("./models/Person");
 // const MenuItem= require('./models/MenuItem')
 
-app.get("/", function (req, res) {
+
+
+// middleware function
+const logRequest=(req,res,next)=>{
+  console.log(`[${new Date().toLocaleString()}] Request Made to : ${req.originalUrl}`);
+  next(); // move on the next phase
+} 
+
+app.use(logRequest);
+
+
+
+app.use(passport.initialize());
+
+const localAuthMiddleware=passport.authenticate('local',{session:false});
+
+// app.get("/",logRequest, function (req, res) {  // perticular ak pe lagana ho
+// app.get("/", function (req, res) {
+
+app.get("/",localAuthMiddleware,function (req, res) {
   res.send("welcome to my hotel how may i help you");
 });
 // create a new person doc usingg mongoose model
@@ -58,7 +79,9 @@ app.get("/", function (req, res) {
 //   });
 
  const personRoutes= require('./routes/personRoutes');
- app.use('/person',personRoutes);
+ app.use('/person',localAuthMiddleware,personRoutes);
+//  app.use('/person',personRoutes);
+
 
  const menuRoutes= require('./routes/menuRoutes');
  app.use('/menu',menuRoutes);
