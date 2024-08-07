@@ -8,3 +8,6 @@
 
 // npm i passport passport-local
 //npm i bcrypt --save
+
+//jwt- 
+// npm i jsonwebtoken
